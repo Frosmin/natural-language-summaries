@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  back:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: fastapi-app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    command: uvicorn app:app --reload --host 0.0.0.0 --port 8000
+  front:
+    build: 
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: react-app
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    command: npm run dev -- --host
+
